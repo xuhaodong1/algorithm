@@ -11,13 +11,45 @@ import java.util.*;
 public class Binomial {
     public static Map<CombinationNode, Integer> resultSMap; //备忘录算法所用存储map
 
+    public static Queue<CombinationNode> queue; // 迭代法所用全局栈
+
     public static void main(String[] args){
         resultSMap = new HashMap();
-        Integer a =  memorandumBinomial(10, 5 );
+        queue = new LinkedList<>();
+        Integer a =  iterationBinomial(5, 3 );
         System.out.println(a);
     }
     public static int iterationBinomial(int n, int k){
-        return 0;
+        if(n == k){
+            return 1;
+        }else if(k == 1){
+            return n;
+        }
+        int sum = 0;
+        queue.offer(new CombinationNode(n, k));
+        while(!queue.isEmpty()){
+            CombinationNode top = queue.element();
+            if(canDealWith(top)){
+                sum += top.getResult();
+                queue.poll();
+            }else{
+                //将new CombinationNode(n - 1, k - 1)先存，保证后入栈的复杂度多一些
+                queue.offer(new CombinationNode(top.getN() - 1, top.getK() - 1));
+                queue.offer(new CombinationNode(top.getN() - 1, top.getK()));
+            }
+        }
+        return sum;
+    }
+
+    public static boolean canDealWith(CombinationNode combinationNode){
+        if(combinationNode.getN() == combinationNode.getK()){
+            combinationNode.setResult(1);
+            return true;
+        }else if(combinationNode.getK() == 1){
+            combinationNode.setResult(combinationNode.getN());
+            return true;
+        }
+        return combinationNode.getResult() != 0;
     }
 
     /**

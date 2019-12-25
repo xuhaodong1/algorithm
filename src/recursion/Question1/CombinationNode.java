@@ -10,6 +10,8 @@ public class CombinationNode{
 
     private int k;
 
+    private int result;
+
     @Override
     public boolean equals(Object obj) {
         CombinationNode temp = (CombinationNode)obj;
@@ -28,6 +30,20 @@ public class CombinationNode{
     public CombinationNode(int n, int k) {
         this.n = n;
         this.k = k;
+    }
+
+    public CombinationNode(int n, int k, int result) {
+        this.n = n;
+        this.k = k;
+        this.result = result;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
     }
 
     public int getN() {

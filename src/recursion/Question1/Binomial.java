@@ -9,22 +9,24 @@ import java.util.*;
  * @create 2019-12-24 14:50
  */
 public class Binomial {
-    public static Map<CombinationNode, Integer> resultSMap; //备忘录算法所用存储map
+    public static Map<CombinationNode, Integer> resultSMap; // 备忘录算法所用存储map
 
     public static Queue<CombinationNode> queue; // 迭代法所用全局栈
 
     public static void main(String[] args){
         resultSMap = new HashMap();
         queue = new LinkedList<>();
-        Integer a =  iterationBinomial(5, 3 );
+        Integer a =  iterationBinomial(10, 5 );
         System.out.println(a);
     }
+
+    /**
+     * 迭代算法
+     * @param n
+     * @param k
+     * @return 组合公式 计算结果
+     */
     public static int iterationBinomial(int n, int k){
-        if(n == k){
-            return 1;
-        }else if(k == 1){
-            return n;
-        }
         int sum = 0;
         queue.offer(new CombinationNode(n, k));
         while(!queue.isEmpty()){
@@ -33,14 +35,19 @@ public class Binomial {
                 sum += top.getResult();
                 queue.poll();
             }else{
-                //将new CombinationNode(n - 1, k - 1)先存，保证后入栈的复杂度多一些
                 queue.offer(new CombinationNode(top.getN() - 1, top.getK() - 1));
                 queue.offer(new CombinationNode(top.getN() - 1, top.getK()));
+                queue.poll();
             }
         }
         return sum;
     }
 
+    /**
+     * 检查节点（combinationNode）是否可直接得出结果并存储结果
+     * @param combinationNode
+     * @return
+     */
     public static boolean canDealWith(CombinationNode combinationNode){
         if(combinationNode.getN() == combinationNode.getK()){
             combinationNode.setResult(1);

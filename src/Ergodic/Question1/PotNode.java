@@ -8,8 +8,6 @@ package Ergodic.Question1;
 public class PotNode {
     private int volume; // 容量
     private int surplus; // 剩余
-    private PotNode biggerPot;
-    private PotNode smallerPot;
 
     public boolean isEmpty(){
         return this.surplus == 0;
@@ -35,29 +33,6 @@ public class PotNode {
     public PotNode(int volume, int surplus) {
         this.volume = volume;
         this.surplus = surplus;
-    }
-
-    public PotNode(int volume, int surplus, PotNode biggerPot, PotNode smallerPot) {
-        this.volume = volume;
-        this.surplus = surplus;
-        this.biggerPot = biggerPot;
-        this.smallerPot = smallerPot;
-    }
-
-    public PotNode getBiggerPot() {
-        return biggerPot;
-    }
-
-    public void setBiggerPot(PotNode biggerPot) {
-        this.biggerPot = biggerPot;
-    }
-
-    public PotNode getSmallerPot() {
-        return smallerPot;
-    }
-
-    public void setSmallerPot(PotNode smallerPot) {
-        this.smallerPot = smallerPot;
     }
 
     public int getVolume() {

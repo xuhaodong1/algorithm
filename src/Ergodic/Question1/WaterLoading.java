@@ -11,54 +11,53 @@ import java.util.Scanner;
 //然后将3品脱的壶倒到8品脱的壶中；接着将5品脱的壶剩下的2品脱倒空到3
 //品脱的壶中。然后再将5品脱的壶灌满，再将5品脱向3品脱的壶中倒水，直
 //到灌满3品脱的壶。这时，5品脱的壶中，将含有精确的4品脱水。
+//思路：
+//倒水的壶不能同时倒两次 push
+//接水的壶不能同时接两次 pull
+//其中空闲的壶第二次一定会利用
 public class WaterLoading {
-    //倒水的壶不能同时倒两次
-    public static PotNode potNode8;
-    public static PotNode potNode5;
-    public static PotNode potNode3;
+
+    public static PotNode potNode8; //容量较大的水壶
+    public static PotNode potNode5; //容量处于中间的水壶
+    public static PotNode potNode3; //容量较小的水壶
     public static int count = 0;
 
-    public static PotNode pull;
-    public static PotNode push;
-    public static PotNode nothing;
+    public static PotNode pull; //上次接水的水壶
+    public static PotNode push; //上次倒水的水壶
+    public static PotNode nothing; //上次什么都没做的水壶
 
     public static void main(String[] args) {
         initPotNodes();
         while(true){
-            if(pull == null && push == null){
-                potNode3.load(potNode3.getBiggerPot());
+            //第一次时
+            if(pull == null && push == null && nothing == null){
+                potNode3.load(potNode8);
                 pull = potNode3;
                 push = potNode8;
                 nothing = potNode5;
-                continue;
-            }
-            if( nothing.getSmallerPot() == pull ){
+            }else if(pull.isFull()){ //接水的满了，赶紧转移
                 nothing.load(pull);
-                push = pull;
-                pull = nothing;
-                nothing = nothing.getBiggerPot();
-            }else{
-                nothing.load(push);
-                nothing = nothing.getBiggerPot();
-                pull = push;
-                push = nothing;
+                PotNode temp1 = nothing;
+                PotNode temp2 = push;
+                PotNode temp3 = pull;
+                nothing = temp2;
+                push = temp3;
+                pull = temp1;
+            }else if(push.isEmpty()){ //倒水的空了，赶紧填上
+                push.load(nothing);
+                PotNode temp1 = nothing;
+                PotNode temp2 = push;
+                PotNode temp3 = pull;
+                nothing = temp3;
+                push = temp1;
+                pull = temp2;
             }
-
-//            if(potNode3.isFull()){
-//                potNode3.getSmallerPot().load(potNode3);
-//            }else if(potNode5.isFull()){
-//                potNode5.getBiggerPot().load(potNode5);
-//            }else if(!potNode3.isEmpty() && !potNode3.isFull()){
-//                potNode3.getSmallerPot().load(potNode3);
-//            }else{
-//                potNode3.load(potNode3.getBiggerPot());
-//            }
             count++;
             printPotNodes();
-            if(potNode5.getSurplus() == 4 || potNode8.getSurplus() == 4){
+            if(potNode5.getSurplus() == 6 || potNode8.getSurplus() == 6){
                 System.out.println("找出结果了");
                 break;
-            }else if(potNode8.getSurplus() == 8){
+            }else if(potNode8.getSurplus() == 12){
                 System.out.println("无法找出结果");
                 break;
             }
@@ -72,8 +71,8 @@ public class WaterLoading {
     }
 
     public static void initPotNodes(){
-        potNode8 = new PotNode(8,8, potNode5, potNode3);
-        potNode5 = new PotNode(5,0, potNode8, potNode3);
-        potNode3 = new PotNode(3,0, potNode8, potNode5);
+        potNode8 = new PotNode(12,12);
+        potNode5 = new PotNode(8,0);
+        potNode3 = new PotNode(5,0);
     }
 }

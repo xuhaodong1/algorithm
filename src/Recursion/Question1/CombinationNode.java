@@ -1,4 +1,4 @@
-package recursion.Question1;
+package Recursion.Question1;
 
 /**
  * @Description

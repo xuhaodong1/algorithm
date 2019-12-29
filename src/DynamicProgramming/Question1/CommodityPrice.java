@@ -59,9 +59,9 @@ public class CommodityPrice {
         int min = 0; // 当前最小花费
         String putKey = "";
         for(Commodity commodity : commodityList){ //初始化min 则未没有优惠时
+            putKey += commodity.getAssumeNum() + ",";
             min += commodity.getPrice() * commodity.getAssumeNum();
         }
-
         //讨论每一种优惠情况
         for(Discount discount : discountList){
             String key = ""; // 存储在HashMap里面的key
@@ -73,7 +73,6 @@ public class CommodityPrice {
                         break;
                     }
                 }
-                putKey += originCommodity.getAssumeNum() + ",";
                 if(current.getNum() > originCommodity.getAssumeNum()){
                     key += "0,";
                 }else{
@@ -84,23 +83,17 @@ public class CommodityPrice {
                 if(resultMap.get(key) + discount.getTotalPrice() < min){
                     min = resultMap.get(key) + discount.getTotalPrice();
                 }
-            }else{
-                if(discount.getTotalPrice() < min){
-                    min = discount.getTotalPrice();
-                }
             }
-
         }
         resultMap.put(putKey, min);
     }
 
     private static void ergodic(int i){//i类商品
         //确定一个子问题，计算一次当前最小花费
-        computedValue();
         if(i >= buyNum){
+            computedValue();
             return;
         }
-
         for(int j = 0; j <= commodityList.get(i).num; j++){ //commodityList.get(i).num表示第i类商品的最大数量
             commodityList.get(i).setAssumeNum(j); //记录第i类商品购买数量j的情况
             ergodic(i+1);//控制遍历所有的商品类

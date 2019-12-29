@@ -1,6 +1,6 @@
 package DynamicProgramming.Question1;
 
-public class Commodity{
+class Commodity{
     int num;//购买数量
 
     int assumeNum;

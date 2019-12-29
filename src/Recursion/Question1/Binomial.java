@@ -16,7 +16,7 @@ public class Binomial {
     public static void main(String[] args){
         resultSMap = new HashMap();
         queue = new LinkedList<>();
-        Integer a =  iterationBinomial(10, 5 );
+        Integer a =  iterationBinomial(10, 3 );
         System.out.println(a);
     }
 

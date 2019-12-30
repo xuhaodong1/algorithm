@@ -13,9 +13,9 @@ public class BoatRent {
 
     public static int siteNum;
 
-    public static int price = 0;
+    public static int[][] flightList;
 
-    List<Flight> flightList = new ArrayList<>();
+    public static int[] shortestCost;
 
     public static void main(String[] args){
         initData();
@@ -23,19 +23,31 @@ public class BoatRent {
     }
 
     public static void computedValue(){
-        for(int i = 0; i < siteNum; i++){
-
+        int index;
+        for( index = 1; index < siteNum; index++){
+            int minCost = flightList[0][index]; //默认从0到index为最少花费
+            for(int i = 1; i < index; i++){
+                if( shortestCost[i] + flightList[i][index] < minCost){
+                    minCost = shortestCost[i] + flightList[i][index];
+                }
+            }
+            shortestCost[index] = minCost;
         }
+        System.out.println("最少金额为：");
+        System.out.println(shortestCost[siteNum - 1]);
+        System.out.println("-------------");
     }
 
     public static void initData(){
         Scanner input = new Scanner(System.in);
         siteNum = input.nextInt();
+        flightList = new int[siteNum][siteNum];
+        shortestCost = new int[siteNum];
         for(int i = 0; i < 3; i++){
-            Flight flight = new Flight();
-            flight.start = input.nextInt();
-            flight.end = input.nextInt();
-            flight.amount = input.nextInt();
+            int start = input.nextInt();
+            int end = input.nextInt();
+            int cost = input.nextInt();
+            flightList[start - 1][end - 1] = cost;
         }
     }
 }

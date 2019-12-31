@@ -1,5 +1,7 @@
 package DynamicProgramming.Question2;
 
+import Recursion.Question1.Binomial;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,6 +24,9 @@ public class BoatRent {
         computedValue();
     }
 
+    /**
+     * 计算金额
+     */
     public static void computedValue(){
         int index;
         for( index = 1; index < siteNum; index++){
@@ -38,12 +43,15 @@ public class BoatRent {
         System.out.println("-------------");
     }
 
+    /**
+     * 初始化数据
+     */
     public static void initData(){
         Scanner input = new Scanner(System.in);
         siteNum = input.nextInt();
         flightList = new int[siteNum][siteNum];
         shortestCost = new int[siteNum];
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < Binomial.recursionBinomial(siteNum, 2); i++){
             int start = input.nextInt();
             int end = input.nextInt();
             int cost = input.nextInt();

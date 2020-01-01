@@ -25,6 +25,9 @@ public class CommodityPrice {
         for(int i = 0; i < commodityList.size(); i++){
             key += commodityList.get(i).num + ",";
         }
+        for(int i = 0; i < commodityList.size(); i++){
+            key += commodityList.get(i).num + ",";
+        }
         System.out.println("价格为");
         System.out.println(resultMap.get(key));
     }
